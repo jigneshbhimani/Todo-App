@@ -1,0 +1,36 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "first_name": "Virat",
+      "last_name": "Kohli"
+    },
+    {
+      "id": 2,
+      "first_name": "Rohit",
+      "last_name": "Sharama"
+    },
+    {
+      "id": 3,
+      "first_name": "Rahul",
+      "last_name": "KL"
+    },
+    {
+      "id": 4,
+      "first_name": "Sachin",
+      "last_name": "Tendulkar"
+    },
+    {
+      "id": 5,
+      "first_name": "MS",
+      "last_name": "Dhoni"
+    }
+  ]
+}
