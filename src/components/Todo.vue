@@ -5,7 +5,7 @@
       <button class="btn btn-primary" @click="showModal = true">
         Add User
       </button>
-      <AddUser v-if="showModal" @close="showModal = false"></AddUser>
+      <AddUser v-if="showModal" @close="showModal = false" :users="users"></AddUser>
     </div>
     <table class="table">
       <thead class="thead">

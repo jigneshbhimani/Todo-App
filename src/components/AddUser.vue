@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "AddUser",
   data() {
@@ -55,9 +57,15 @@ export default {
       },
     };
   },
+  props: {
+    users: { type: Array },
+  },
   methods: {
     addUser() {
-      console.log("Name", this.user.first_name, this.user.last_name);
+      axios.post("http://localhost:3000/users", this.user).then((response) => {
+        this.user = response.data;
+        this.users.push(this.user);
+      });
       this.$emit("close");
     },
   },
