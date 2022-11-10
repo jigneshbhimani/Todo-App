@@ -21,7 +21,9 @@
 
             <div class="row">
               <div class="col">
-                <button class="btn btn-primary" @click="addUser">Save</button>
+                <button class="btn btn-primary" @click="updateUser">
+                  Save
+                </button>
               </div>
               <div class="col">
                 <button class="btn btn-primary" @click="$emit('close')">
@@ -40,7 +42,7 @@
 import axios from "axios";
 
 export default {
-  name: "AddUser",
+  name: "UpdateModal",
   data() {
     return {
       user: {
@@ -51,14 +53,20 @@ export default {
   },
   props: {
     users: { type: Array },
+    userId: { type: Number },
+  },
+  mounted() {
+    this.user = this.users.find((data) => data.id == this.userId);
   },
   methods: {
-    addUser() {
+    updateUser() {
       axios
-        .post("https://jsonplaceholder.typicode.com/posts", this.user)
+        .put(
+          `https://jsonplaceholder.typicode.com/posts/${this.user.id}`,
+          this.user
+        )
         .then((response) => {
           this.user = response.data;
-          this.users.push(this.user);
         });
       this.$emit("close");
     },

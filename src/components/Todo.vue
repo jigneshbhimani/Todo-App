@@ -5,29 +5,34 @@
       <button class="btn btn-primary" @click="showModal = true">
         Add User
       </button>
-      <AddUser v-if="showModal" @close="showModal = false" :users="users"></AddUser>
+      <AddUser
+        v-if="showModal"
+        @close="showModal = false"
+        :users="users"
+      ></AddUser>
     </div>
     <table class="table">
       <thead class="thead">
         <tr>
           <th scope="col">ID</th>
-          <th scope="col">First Name</th>
-          <th scope="col">Last Name</th>
+          <th scope="col">Title</th>
+          <th scope="col">Body</th>
           <th scope="col">Actions</th>
+          <th scope="col">Update</th>
         </tr>
       </thead>
       <tbody v-for="(user, index) in users" :key="user.id">
         <tr>
           <th scope="row">{{ user.id }}</th>
           <td v-if="editing === user.id">
-            <input type="text" v-model="user.first_name" />
+            <input type="text" v-model="user.title" />
           </td>
-          <td v-else>{{ user.first_name }}</td>
+          <td v-else>{{ user.title }}</td>
 
           <td v-if="editing === user.id">
-            <input type="text" v-model="user.last_name" />
+            <input type="text" v-model="user.body" />
           </td>
-          <td v-else>{{ user.last_name }}</td>
+          <td v-else>{{ user.body }}</td>
 
           <td v-if="editing === user.id">
             <button @click="editUser(user)" class="btn btn-outline-primary">
@@ -45,37 +50,49 @@
               Delete
             </button>
           </td>
+          <td>
+            <button class="btn btn-info" @click="showUpdateModal(user)">
+              Update
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
+    <UpdateModal
+      v-if="showUpdate"
+      @close="showUpdate = false"
+      :users="users"
+      :userId="currentId"
+    ></UpdateModal>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 import AddUser from "@/components/AddUser.vue";
+import UpdateModal from "@/components/UpdateModal.vue";
+import { mapState } from "vuex";
 
 export default {
   name: "Todo",
-
   components: {
     AddUser,
+    UpdateModal,
   },
-
   data() {
     return {
-      users: [],
       showModal: false,
       editing: null,
+      showUpdate: false,
+      currentId: 0,
     };
   },
-
+  mounted() {
+    this.$store.dispatch("getUsers");
+  },
+  computed: {
+    ...mapState(["users"]),
+  },
   methods: {
-    getUsers() {
-      axios.get("http://localhost:3000/users").then((response) => {
-        this.users = response.data;
-      });
-    },
     updateUser(user) {
       this.updatedUser = Object.assign({}, user);
       this.editing = user.id;
@@ -92,17 +109,17 @@ export default {
     deleteUser(index) {
       this.users.splice(index, 1);
     },
-  },
-
-  mounted() {
-    this.getUsers();
+    showUpdateModal(user) {
+      this.currentId = user.id;
+      this.showUpdate = true;
+    },
   },
 };
 </script>
 
 <style scoped>
 button {
-  margin: 0 1rem 0 0;
+  margin: 1rem 0 0;
 }
 input {
   margin: 0;
