@@ -119,7 +119,7 @@ export default {
 
 <style scoped>
 button {
-  margin: 1rem 0 0;
+  margin: 5px 1rem 0 0;
 }
 input {
   margin: 0;
